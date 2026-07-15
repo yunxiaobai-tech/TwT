@@ -1,0 +1,26 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+@import "../../css/z-index.css";
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-index-modal;
+    background-color: $ui-modal-overlay;
+}
+
+.modal-content {
+    margin: 100px auto;
+    outline: none;
+    border: .25rem solid $ui-white-transparent;
+    padding: 0;
+    border-radius: $space;
+    user-select: none;
+    width: 500px;
+    height: 300px;
+    background-color: $ui-modal-background;
+    overflow: hidden;
+}

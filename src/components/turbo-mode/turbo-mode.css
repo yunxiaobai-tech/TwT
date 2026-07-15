@@ -1,0 +1,26 @@
+@import "../../css/colors.css";
+
+.turbo-container {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+    user-select: none;
+    transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.turbo-container:active {
+    transform: scale(0.92);
+    transition-duration: 0.06s;
+}
+
+.turbo-icon {
+    margin: 0.25rem;
+}
+
+.turbo-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    font-family: "WenYuanRoundedSC", sans-serif;
+    color: $control-primary;
+    white-space: nowrap;
+}

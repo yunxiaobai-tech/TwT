@@ -1,0 +1,126 @@
+.main {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.headerContainer {
+    padding: 1.5rem 0 1rem;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 1.5rem;
+}
+
+.headerText {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    color: #222;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.entry {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.version {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: #444;
+}
+
+.versionRow {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.date {
+    font-size: 13px;
+    color: #999;
+}
+
+.list {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.item {
+    margin: 0.5rem 0;
+    color: #555;
+}
+
+.itemText {
+    vertical-align: middle;
+}
+
+/* 分类标签（新增 / 改进 / 修复） */
+.tag {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 1;
+    padding: 3px 7px;
+    border-radius: 10px;
+    margin-right: 8px;
+    font-weight: 600;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.tagNew { background: #e6f7ed; color: #1a7f4b; }
+.tagImp { background: #e7f0ff; color: #1a5fb4; }
+.tagFix { background: #fdeede; color: #b5560f; }
+
+.footer {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.backLink {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+}
+
+/* 暗黑模式适配 */
+body[data-splash-theme="dark"] .main {
+    color: #e0e0e0;
+}
+body[data-splash-theme="dark"] .headerText {
+    color: #fff;
+}
+body[data-splash-theme="dark"] .entry {
+    background: #1e1e1e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+body[data-splash-theme="dark"] .version {
+    color: #e0e0e0;
+}
+body[data-splash-theme="dark"] .item {
+    color: #c0c0c0;
+}
+body[data-splash-theme="dark"] .backLink {
+    color: #4dabf7;
+}
+body[data-splash-theme="dark"] .date {
+    color: #888;
+}
+body[data-splash-theme="dark"] .tagNew { background: rgba(26, 127, 75, 0.25); color: #6fdc9c; }
+body[data-splash-theme="dark"] .tagImp { background: rgba(26, 95, 180, 0.25); color: #7ab8f5; }
+body[data-splash-theme="dark"] .tagFix { background: rgba(181, 86, 15, 0.25); color: #f0a868; }

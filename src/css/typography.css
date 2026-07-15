@@ -1,0 +1,24 @@
+/* WenYuanRoundedSC-Medium 全局字体 */
+@font-face {
+    font-family: 'WenYuanRoundedSC';
+    src: url('/fonts/WenYuanRoundedSC-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: "WenYuanRoundedSC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.5em;
+}
