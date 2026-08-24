@@ -1,0 +1,9 @@
+/* TwT 作品缓存 addon — 原生模态框内列表项样式
+ *
+ * 注意：列表项的「底色 / 悬停 / 垃圾桶图标配色」均由 userscript.js
+ * 按当前主题（亮/暗）动态计算并以 inline 样式写入，因此这里不再写
+ * .twt-cache-item:hover 规则——原先的 !important 悬停规则会覆盖
+ * JS 注入的内联样式，导致亮色模式下「悬停变主题色」失效。
+ * 如需微调，请在 userscript.js 中修改 optBaseBg / optHoverBg /
+ * trashBaseColor 等变量。
+ */

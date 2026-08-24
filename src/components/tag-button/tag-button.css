@@ -1,0 +1,26 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.tag-button {
+    padding: .625rem 1rem;
+    background: $looks-secondary;
+    border-radius: 1.375rem;
+    color: white;
+    height: $library-filter-bar-height;
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.15s ease;
+}
+
+.tag-button:active {
+    transform: scale(0.93);
+    opacity: 0.8;
+    transition-duration: 0.06s;
+}
+
+.tag-button-icon {
+    max-width: 1rem;
+    max-height: 1rem;
+}
+
+.active {
+    background: $data-primary;
+}

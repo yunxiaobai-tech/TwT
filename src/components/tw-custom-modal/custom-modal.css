@@ -1,0 +1,128 @@
+@import "../../css/colors.css";
+@import "../../css/filters.css";
+@import "../../css/default-colors.css";
+@import "../../css/units.css";
+
+.modal-content {
+    max-width: 750px;
+    border-radius: $form-radius;
+}
+
+.body {
+    background: $ui-modal-background;
+    padding: 1.5rem 2.25rem;
+    min-height: 150px;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.option-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.option-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-icon-wrap img,
+.option-icon-wrap svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.option-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: $text-primary;
+    letter-spacing: 0.3px;
+}
+
+.option-desc {
+    font-size: 12px;
+    color: $text-primary;
+    opacity: 0.55;
+}
+
+/* iOS Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3a3a3c;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.toggle-slider::before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: $looks-secondary;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+}
+
+/* For small screens, such as in the embed */
+@media (max-height: 600px) {
+    .modal-content {
+        margin: 50px auto;
+    }
+    .body {
+        max-height: calc(100vh - 150px);
+    }
+}

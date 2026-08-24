@@ -1,0 +1,13 @@
+[build]
+  # 构建命令：Netlify 云端自动执行（不要再本地 build 后只传 build/）
+  command = "npm run build"
+  # 发布目录：构建产物
+  publish = "build"
+
+[functions]
+  # 服务端函数目录（AI 审核代理 moderate.js 所在）
+  directory = "netlify/functions"
+
+[build.environment]
+  # 函数运行在 Node 20+（自带 fetch）；同时作为构建环境 Node 版本
+  NODE_VERSION = "20"

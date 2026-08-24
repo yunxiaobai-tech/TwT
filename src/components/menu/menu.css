@@ -1,0 +1,126 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.menu {
+    position: absolute;
+    border: none;
+    border-radius: 0.75rem;
+    background-color: $menu-bar-background;
+    padding: 0.25rem 0;
+    margin: 0;
+    min-width: 186px;
+    overflow: visible;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    /* iOS frosted glass */
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+
+    /* iOS spring entrance */
+    animation: menuSpringIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    transform-origin: top left;
+}
+
+.menu.left {
+    right: 0;
+}
+
+@keyframes menuSpringIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(-4px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.menu.right {
+    left: 0;
+}
+
+.menu-item {
+    display: block;
+    line-height: 34px;
+    white-space: nowrap;
+    padding: 0 12px;
+    font-size: .75rem;
+    margin: 0;
+    font-weight: 400;
+    position: relative;
+    border-radius: 0.375rem;
+    transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.12s ease;
+}
+
+.menu-item:active {
+    transform: scale(0.97);
+    transition-duration: 0.06s;
+}
+
+.menu-item.active,
+.menu-item:hover,
+.menu-item.expanded {
+    background-color: $ui-black-transparent;
+    border-radius: 0.375rem;
+}
+
+.menu-item.hoverable {
+    cursor: pointer;
+}
+
+.menu-section {
+    border-top: 0.5px solid $ui-black-transparent;
+    margin-top: 0.25rem;
+    padding-top: 0.25rem;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: -1px;
+    min-width: 186px;
+    height: max-content;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.submenu.right {
+    left: 100%;
+}
+
+.submenu.left {
+    right: 100%;
+}
+
+.submenu > .menu {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: $menu-bar-foreground $menu-bar-background;
+    border-radius: 8px;
+}
+
+.menu-item.expanded > .submenu {
+    display: block;
+}
+
+::not(:has(> .menu-item.expanded)) > .menu-item:hover > .submenu {
+    display: block;
+}
+
+/* Fallback styling for webkit browsers that don't support scrollbar-color */
+
+.submenu > .menu::-webkit-scrollbar {
+    width: 12px;
+}
+
+.submenu > .menu::-webkit-scrollbar-track {
+    background: $menu-bar-background;
+}
+
+.submenu > .menu::-webkit-scrollbar-thumb {
+    background-color: $menu-bar-foreground;
+    border-radius: 12px;
+    border: 3px solid $menu-bar-background;
+}

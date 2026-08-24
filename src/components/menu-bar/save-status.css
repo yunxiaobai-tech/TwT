@@ -1,0 +1,99 @@
+@import "../../css/colors.css";
+
+.login-button {
+    cursor: pointer;
+    padding: 0 0.75rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    user-select: none;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.login-button:hover {
+    background-color: $ui-black-transparent;
+}
+
+.login-icon {
+    display: block;
+}
+
+.login-text {
+    color: #ffffff;
+}
+
+.profile-center-wrap {
+    position: relative;
+    height: 100%;
+}
+
+.profile-center {
+    cursor: pointer;
+    padding: 0 0.5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+    user-select: none;
+}
+
+.profile-center:hover {
+    background-color: $ui-black-transparent;
+}
+
+.profile-avatar-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.15rem;
+}
+
+.profile-caret-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.15rem;
+    opacity: 0.9;
+}
+
+.profile-caret-area:hover {
+    opacity: 1;
+}
+
+.profile-caret {
+    display: block;
+}
+
+.profile-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: $ui-white-transparent;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 120px;
+    background-color: $ui-white;
+    border: 1px solid $ui-black-transparent;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    padding: 0.25rem 0;
+}
+
+.profile-dropdown-item {
+    padding: 0.6rem 1rem;
+    color: $text-primary;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.profile-dropdown-item:hover {
+    background-color: $ui-black-transparent;
+}

@@ -1,0 +1,8 @@
+a[class^="menu-bar_feedback-link_"] {
+  display: none;
+}
+
+/* TwT 反馈区按钮（替代了原生 feedback 链接，类名不同），开启插件时一并隐藏 */
+[class*="menu-bar_feedback-button_"] {
+  display: none !important;
+}

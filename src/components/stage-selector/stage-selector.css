@@ -1,0 +1,124 @@
+@import "../../css/units.css";
+@import "../../css/colors.css";
+
+$header-height: calc($stage-menu-height - 2px);
+
+.stage-selector {
+    background-clip: padding-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex-grow: 1;
+    font-family: "WenYuanRoundedSC", sans-serif;
+    background-color: $ui-white;
+    color: $text-primary;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    border-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-bottom: 0;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.stage-selector:active {
+    transform: scale(0.97);
+    transition-duration: 0.08s;
+}
+
+.stage-selector.is-selected {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    border-color: $looks-secondary;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stage-selector:hover {
+    border-color: $looks-secondary;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: $header-height;
+    background-color: $ui-white;
+    color: $text-primary;
+    border-top-left-radius: $space;
+    border-top-right-radius: $space;
+    border-bottom: 1px solid $ui-black-transparent;
+    width: 100%;
+    transition: background-color 0.25s ease;
+}
+
+.header-title {
+    font-size: 0.625rem;
+    font-weight: bold;
+    color: $text-primary;
+
+    /* @todo: make this a mixin for all UI text labels */
+    user-select: none;
+    transition: color 0.25s ease;
+}
+
+.stage-selector.is-selected .header {
+    background-color: $looks-secondary;
+}
+
+.stage-selector.is-selected .header-title {
+    color: #ffffff;
+}
+
+.count {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.625rem;
+    color: $text-primary;
+    user-select: none;
+}
+
+.label {
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.6rem;
+    color: $text-primary;
+    user-select: none;
+    text-align: center;
+}
+
+.costume-canvas {
+    display: block;
+    margin-top: .25rem;
+    width: 100%;
+    user-select: none;
+    border: 1px solid $ui-black-transparent;
+    border-radius: .25rem;
+    box-shadow: inset 0 0 4px $shadow;
+    max-width: 64px;
+    max-height: 48px;
+}
+
+.add-button {
+    position: absolute;
+    bottom: 0.75rem;
+}
+
+.raised, .raised .header {
+    background-color: $drop-highlight;
+    transition: all 0.25s ease;
+}
+
+.raised:hover {
+    transform: scale(1.05);
+}
+
+.receivedBlocks {
+    animation: glowing 250ms;
+}
+
+@keyframes glowing {
+    10% { box-shadow: 0 0 10px #7fff1e; }
+    90% { box-shadow: 0 0 10px #7fff1e; }
+    100% { box-shadow: none; }
+}

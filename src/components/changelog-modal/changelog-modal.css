@@ -1,0 +1,185 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+/* 复用编辑器原生 Modal 外观（头部 / 关闭按钮由 Modal 组件提供） */
+.modalContent {
+    background: $ui-modal-background;
+    max-height: 84vh;
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 4rem);
+    max-width: 640px;
+    border-radius: $form-radius;
+}
+
+.body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1.5rem 1.5rem 1.75rem;
+    color: $ui-modal-foreground;
+    /* 可见滚动条（用于翻阅完整更新记录） */
+    scrollbar-width: thin;
+    scrollbar-color: $ui-black-transparent transparent;
+}
+.body::-webkit-scrollbar {
+    width: 9px;
+}
+.body::-webkit-scrollbar-track {
+    background: transparent;
+}
+.body::-webkit-scrollbar-thumb {
+    background: $ui-black-transparent;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+.body::-webkit-scrollbar-thumb:hover {
+    background: $ui-modal-foreground;
+    background-clip: padding-box;
+}
+
+/* 单条版本：编辑器次要底色卡片 + 主色左边框 */
+.entry {
+    position: relative;
+    background: $ui-tertiary;
+    border-radius: $form-radius;
+    padding: 1.15rem 1.35rem 1.2rem 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid $ui-primary;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.entry:last-child {
+    margin-bottom: 0;
+}
+
+.versionRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0;
+}
+
+/* 版本标题与改动列表之间的分割线（编辑器半透明描边色，主题自适应） */
+.divider {
+    height: 1px;
+    background: $ui-black-transparent;
+    margin: 0.75rem 0 0.85rem;
+}
+
+
+.version {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    color: $ui-modal-foreground;
+    letter-spacing: -0.01em;
+}
+
+/* 日期：普通文字（不再使用蓝色 badge） */
+.date {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    color: $ui-modal-foreground;
+    white-space: nowrap;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0.55rem 0;
+    line-height: 1.5;
+}
+
+.itemText {
+    flex: 1;
+}
+
+/* 分类标签：复用编辑器积木分类色（运动绿 / 控制蓝 / 报错红） */
+.tag {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.6rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 0.1rem;
+    user-select: none;
+}
+
+.tagIcon {
+    margin-right: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+}
+.tagIcon svg {
+    width: 1.4em;
+    height: 1.4em;
+    fill: currentColor;
+    display: block;
+}
+
+.tagNew { background: $motion-primary; }
+.tagImp { background: $control-primary; }
+.tagFix { background: $error-primary; }
+.tagSec { background: $motion-primary; } /* 安全：绿色 */
+
+/* 文件清单分区（分界线之后，做成面板卡片） */
+.filesSection {
+    margin-top: 0.9rem;
+    padding: 0.85rem 1rem 0.95rem;
+    background: $ui-black-transparent;
+    border-radius: 0.5rem;
+}
+.filesTitle {
+    font-size: 0.72rem;
+    font-weight: 700;
+    opacity: 0.75;
+    margin: 0.15rem 0 0.5rem;
+    letter-spacing: 0.02em;
+}
+.filesList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+.fileChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+    padding: 0.28rem 0.6rem;
+    border-radius: 0.4rem;
+    background: rgba(120, 130, 145, 0.16);
+    border: 1px solid rgba(120, 130, 145, 0.35);
+    color: $ui-modal-foreground;
+    user-select: text;
+}
+.fileChipNew {
+    background: rgba(46, 158, 91, 0.16);
+    border-color: rgba(46, 158, 91, 0.4);
+    color: $motion-primary;
+}
+.fileIcon {
+    display: inline-flex;
+    align-items: center;
+}
+.fileIcon svg {
+    width: 1.2em;
+    height: 1.2em;
+    fill: currentColor;
+    display: block;
+}

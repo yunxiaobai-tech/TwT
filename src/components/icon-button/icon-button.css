@@ -1,0 +1,37 @@
+@import "../../css/colors.css";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: "WenYuanRoundedSC", sans-serif;
+    color: $looks-secondary;
+    border-radius: 0.625rem;
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.15s ease;
+}
+
+.container + .container {
+    margin-top: 1.25rem;
+}
+
+.title {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.container:active {
+    transform: scale(0.9);
+    background-color: $looks-light-transparent;
+    transition-duration: 0.08s;
+}
+
+.container:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}

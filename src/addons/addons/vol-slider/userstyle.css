@@ -1,0 +1,110 @@
+.sa-vol-slider {
+  /* Same lateral padding as .clone-container-container */
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.sa-vol-slider-inner {
+  display: flex;
+  align-items: center;
+}
+
+.sa-vol-slider-icon {
+  width: 28px;          /* 放大：20px -> 28px */
+  height: 28px;         /* 放大：20px -> 28px */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 0.5rem;          /* 与开始按钮(绿旗)同款圆角 */
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.15s ease;
+}
+
+.sa-vol-slider-icon[data-icon="mute"] {
+  background-image: url("./mute.svg");
+}
+.sa-vol-slider-icon[data-icon="quiet"] {
+  background-image: url("./quiet.svg");
+}
+.sa-vol-slider-icon[data-icon="loud"] {
+  background-image: url("./loud.svg");
+}
+
+/* 悬停：与开始按钮(绿旗) hover 一致 —— 浅色半透明背景 */
+.sa-vol-slider-icon:hover {
+  background-color: var(--looks-light-transparent, rgba(0, 0, 0, 0.08));
+}
+
+/* 按下：与开始按钮(绿旗) :active 完全一致 —— 缩小 0.85 + 半透明背景 */
+.sa-vol-slider-icon:active {
+  transform: scale(0.85);
+  background-color: var(--looks-transparent, rgba(0, 0, 0, 0.15));
+  transition-duration: 0.08s;
+}
+
+.sa-vol-slider-icon:hover,
+.sa-vol-slider-input:hover {
+  cursor: pointer;
+}
+
+.sa-small-stage .sa-vol-slider-input,
+.sa-small-stage .sa-vol-slider-icon:not([data-icon="mute"]) {
+  display: none !important;
+}
+.sa-small-stage .sa-vol-slider {
+  width: 0;
+}
+
+.sa-vol-slider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 96px;          /* 放大：50px -> 96px */
+  height: 10px;         /* 放大：6px -> 10px */
+  border-radius: 5px;
+  background-color: #de91de;
+  transition: all 0.25s ease;
+}
+
+[dir="ltr"] .sa-vol-slider-input {
+  margin-left: 6px;     /* 间距随放大略增 */
+}
+
+[dir="rtl"] .sa-vol-slider-input {
+  margin-right: 6px;
+}
+
+.sa-vol-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;          /* 放大：12px -> 18px */
+  height: 18px;
+  border-radius: 50%;
+  background-color: #c234c2;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+}
+/* 滑块按下反馈：滑块整体与滑块钮同步给出“按下”观感 */
+.sa-vol-slider-input:active {
+  background-color: #d36fd3;
+}
+.sa-vol-slider-input:active::-webkit-slider-thumb {
+  transform: scale(0.88);
+  background-color: #a52aa5;
+}
+
+.sa-vol-slider-input::-moz-range-thumb {
+  width: 18px;          /* 放大：12px -> 18px */
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background-color: #c234c2;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+}
+.sa-vol-slider-input:active::-moz-range-thumb {
+  transform: scale(0.88);
+  background-color: #a52aa5;
+}
+
+.sa-mute-project-icon {
+  display: none !important;
+}
