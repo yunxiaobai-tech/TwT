@@ -16,6 +16,7 @@ const LOGIN_ENDPOINT = '/.netlify/functions/login';
 const AVATAR_ENDPOINT = '/.netlify/functions/avatar';
 const LOGOUT_ENDPOINT = '/.netlify/functions/logout';
 const ADMIN_ENDPOINT = '/.netlify/functions/admin';
+const RESET_PASSWORD_ENDPOINT = '/.netlify/functions/reset-password';
 
 // 本地兜底：未登录或接口失败时，头像存本机
 const AVATAR_LOCAL_KEY = 'twt_avatar_url';
@@ -292,4 +293,13 @@ export async function adminCall (action, extra) {
     } catch (e) {
         return {ok: false, error: String(e && e.message ? e.message : e)};
     }
+}
+
+export async function resetPassword (email, code, newPassword) {
+    const result = await postJSON(RESET_PASSWORD_ENDPOINT, {
+        email: email.trim().toLowerCase(),
+        code: code.trim(),
+        new_password: newPassword
+    });
+    return result;
 }

@@ -7,7 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '../../containers/modal.jsx';
-import {sendCode, register, login, getSession} from '../../lib/tw-auth-store.js';
+import {sendCode, register, login, getSession, resetPassword} from '../../lib/tw-auth-store.js';
 import styles from './login-modal.css';
 
 const CODE_LENGTH = 6;
@@ -56,7 +56,21 @@ const TEXT = {
         switchToRegister: '还没有账号？去注册',
         switchToLogin: '已有账号？去登录',
         captchaRequired: '请先完成人机验证后再获取验证码',
-        captchaLabel: '人机验证'
+        captchaLabel: '人机验证',
+        forgotTitle: '忘记密码',
+        forgotDesc: '输入邮箱，我们将发送验证码用于重置密码',
+        newPasswordLabel: '新密码',
+        newPasswordPlaceholder: '至少 6 位字符',
+        confirmPasswordLabel: '确认新密码',
+        confirmPasswordPlaceholder: '再次输入新密码',
+        forgotPasswordBtn: '忘记密码',
+        backToLogin: '返回登录',
+        passwordsNotMatch: '两次输入的密码不一致',
+        newPasswordTooShort: '新密码至少 6 位',
+        passwordResetSuccess: '密码重置成功，请重新登录',
+        resetFailed: '重置失败：{reason}',
+        invalidCode: '请输入6位验证码',
+        or: '或',
     },
     en: {
         title: 'Login / Register',
@@ -91,7 +105,21 @@ const TEXT = {
         switchToRegister: 'No account yet? Switch to Register',
         switchToLogin: 'Have an account? Switch to Login',
         captchaRequired: 'Please complete the human verification first',
-        captchaLabel: 'Human verification'
+        captchaLabel: 'Human verification',
+        forgotTitle: 'Forgot Password',
+        forgotDesc: 'Enter your email and we will send a verification code to reset your password',
+        newPasswordLabel: 'New Password',
+        newPasswordPlaceholder: 'At least 6 characters',
+        confirmPasswordLabel: 'Confirm New Password',
+        confirmPasswordPlaceholder: 'Enter new password again',
+        forgotPasswordBtn: 'Forgot Password?',
+        backToLogin: 'Back to Login',
+        passwordsNotMatch: 'Passwords do not match',
+        newPasswordTooShort: 'New password must be at least 6 characters',
+        passwordResetSuccess: 'Password reset successful, please log in again',
+        resetFailed: 'Reset failed: {reason}',
+        invalidCode: 'Please enter a 6-digit verification code',
+        or: 'or',
     }
 };
 
@@ -145,7 +173,8 @@ class LoginModalComponent extends React.Component {
             flashKey: 0,
             flashLeaving: false,
             langOverride: null, // 手动切换语言（null = 跟随编辑器 props.lang）
-            turnstileToken: '' // 人机验证（Turnstile）一次性令牌
+            turnstileToken: '', // 人机验证（Turnstile）一次性令牌
+            forgotStep: 'none' // 'none' | 'email' | 'code'
         };
         this._cooldownTimer = null;
         this._flashTimer = null;
@@ -272,7 +301,51 @@ class LoginModalComponent extends React.Component {
         );
     }
     switchTab (tab) {
-        this.setState({tab, flash: '', regStep: 'form'});
+        this.setState({tab, flash: '', regStep: 'form', forgotStep: 'none'});
+    }
+    startForgotPassword () {
+        this.setState({forgotStep: 'email', flash: '', code: '', newPassword: '', confirmPassword: ''});
+    }
+    async onForgotPasswordSendCode () {
+        const email = this.state.email.trim().toLowerCase();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            this.flash(this.t('invalidEmail'), 'error'); return;
+        }
+        if (this.state.turnstileToken === '') {
+            this.flash(this.t('captchaRequired'), 'info'); return;
+        }
+        this.setState({sending: true, flash: ''});
+        const cfToken = this.state.turnstileToken;
+        const res = await sendCode(email, cfToken);
+        this.setState({sending: false});
+        if (res.ok) {
+            this.setState({forgotStep: 'code'});
+        } else {
+            this.flash(this.t('sendFailed').replace('{reason}', res.error), 'error');
+        }
+    }
+    async onForgotPasswordReset () {
+        const email = this.state.email.trim().toLowerCase();
+        const code = this.state.code.trim();
+        const newPassword = this.state.newPassword;
+        const confirmPassword = this.state.confirmPassword;
+        if (newPassword.length < PASSWORD_MIN) {
+            this.flash(this.t('newPasswordTooShort'), 'error'); return;
+        }
+        if (newPassword !== confirmPassword) {
+            this.flash(this.t('passwordsNotMatch'), 'error'); return;
+        }
+        if (!/^\d{6}$/.test(code)) {
+            this.flash(this.t('invalidCode'), 'error'); return;
+        }
+        this.setState({verifying: true, flash: ''});
+        const res = await resetPassword(email, code, newPassword);
+        this.setState({verifying: false});
+        if (res.ok) {
+            this.setState({forgotStep: 'none', flash: this.t('passwordResetSuccess'), flashType: 'success'});
+        } else {
+            this.flash(this.t('resetFailed').replace('{reason}', res.error), 'error');
+        }
     }
     startCooldown () {
         this.setState({cooldown: COOLDOWN_SECONDS});
@@ -404,7 +477,7 @@ class LoginModalComponent extends React.Component {
     }
     renderBody () {
         const {tab, email, password, username, code, regStep, sending, verifying,
-            registering, cooldown} = this.state;
+            registering, cooldown, forgotStep} = this.state;
         const T = key => this.t(key);
         return (
             <div className={styles.body}>
@@ -413,9 +486,99 @@ class LoginModalComponent extends React.Component {
                         className={styles.titleLogo}
                         dangerouslySetInnerHTML={{__html: LOGO_SVG}}
                     />
-                    <h2 className={styles.title}>{T('title')}</h2>
+                    <h2 className={styles.title}>{forgotStep !== 'none' ? T('forgotTitle') : T('title')}</h2>
                 </div>
-                <div className={styles.tabs}>
+
+                {forgotStep !== 'none' ? (
+                    <div className={styles.form}>
+                        {forgotStep === 'email' ? (
+                            <>
+                                <p className={styles.hint}>{T('forgotDesc')}</p>
+                                <label className={styles.label}>
+                                    {T('emailLabel')}
+                                </label>
+                                <input
+                                    type="email"
+                                    className={styles.input}
+                                    placeholder={T('emailPlaceholder')}
+                                    value={email}
+                                    onChange={e => this.setState({email: e.target.value})}
+                                />
+                                <label className={styles.label}>{T('captchaLabel')}</label>
+                                <div className={styles.turnstileBox}>
+                                    <div ref={this.turnstileRef} />
+                                </div>
+                                <button
+                                    type="button"
+                                    className={styles.submitBtn}
+                                    disabled={sending}
+                                    onClick={() => this.onForgotPasswordSendCode()}
+                                >
+                                    {sending ? this.renderSpinner(T('sending')) : T('sendCode')}
+                                </button>
+                                <div className={styles.switchHint} onClick={() => this.setState({forgotStep: 'none'})}>
+                                    {T('backToLogin')}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <p className={styles.hint}>{T('codeSentTo').replace('{email}', email)}</p>
+                                <label className={styles.label}>
+                                    {T('codeLabel')}
+                                </label>
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    maxLength={CODE_LENGTH}
+                                    className={styles.input}
+                                    placeholder={T('codePlaceholder')}
+                                    value={code}
+                                    onChange={e => this.setState({code: e.target.value.replace(/\D/g, '').slice(0, CODE_LENGTH)})}
+                                />
+                                <label className={styles.label}>
+                                    {T('newPasswordLabel')}
+                                </label>
+                                <input
+                                    type="password"
+                                    className={styles.input}
+                                    placeholder={T('newPasswordPlaceholder')}
+                                    value={this.state.newPassword}
+                                    onChange={e => this.setState({newPassword: e.target.value})}
+                                />
+                                <label className={styles.label}>
+                                    {T('confirmPasswordLabel')}
+                                </label>
+                                <input
+                                    type="password"
+                                    className={styles.input}
+                                    placeholder={T('confirmPasswordPlaceholder')}
+                                    value={this.state.confirmPassword}
+                                    onChange={e => this.setState({confirmPassword: e.target.value})}
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.submitBtn}
+                                    disabled={verifying || code.length !== CODE_LENGTH || this.state.newPassword.length < PASSWORD_MIN || this.state.newPassword !== this.state.confirmPassword}
+                                    onClick={() => this.onForgotPasswordReset()}
+                                >
+                                    {verifying ? this.renderSpinner('重置中...') : '重置密码'}
+                                </button>
+                                <div className={styles.switchHint} onClick={() => this.setState({forgotStep: 'email'})}>
+                                    {T('back')}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                ) : (
+                    <>
+                    <div className={styles.titleRow}>
+                        <span
+                            className={styles.titleLogo}
+                            dangerouslySetInnerHTML={{__html: LOGO_SVG}}
+                        />
+                        <h2 className={styles.title}>{T('title')}</h2>
+                    </div>
+                    <div className={styles.tabs}>
                     <button
                         type="button"
                         className={`${styles.tabBtn} ${tab === 'login' ? styles.tabActive : ''}`}
@@ -464,8 +627,14 @@ class LoginModalComponent extends React.Component {
                         >
                             {verifying ? this.renderSpinner(T('loggingIn')) : T('loginBtn')}
                         </button>
-                        <div className={styles.switchHint} onClick={() => this.switchTab('register')}>
-                            {T('switchToRegister')}
+                        <div className={styles.bottomLinks}>
+                            <div className={styles.switchHint} onClick={() => this.switchTab('register')}>
+                                {T('switchToRegister')}
+                            </div>
+                            <span className={styles.separator}>{T('or')}</span>
+                            <div className={styles.forgotLink} onClick={() => this.startForgotPassword()}>
+                                {T('forgotPasswordBtn')}
+                            </div>
                         </div>
                     </div>
                 ) : (

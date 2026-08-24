@@ -318,3 +318,30 @@
         max-height: calc(100vh - 150px);
     }
 }
+
+/* 底部链接：去注册 | 或 | 忘记密码 */
+.bottomLinks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    margin-top: 0.75rem;
+}
+.forgotLink {
+    font-size: 12.5px;
+    color: $looks-secondary;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+.forgotLink:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+.separator {
+    font-size: 12.5px;
+    color: $text-primary;
+    opacity: 0.4;
+    white-space: nowrap;
+}
