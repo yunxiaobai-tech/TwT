@@ -571,13 +571,6 @@ class LoginModalComponent extends React.Component {
                     </div>
                 ) : (
                     <>
-                    <div className={styles.titleRow}>
-                        <span
-                            className={styles.titleLogo}
-                            dangerouslySetInnerHTML={{__html: LOGO_SVG}}
-                        />
-                        <h2 className={styles.title}>{T('title')}</h2>
-                    </div>
                     <div className={styles.tabs}>
                     <button
                         type="button"
@@ -747,6 +740,8 @@ class LoginModalComponent extends React.Component {
                             </div>
                         </div>
                     )
+                )}
+                    </>
                 )}
             </div>
         );
