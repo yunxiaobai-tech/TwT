@@ -57,6 +57,7 @@ const TEXT = {
         switchToLogin: '已有账号？去登录',
         captchaRequired: '请先完成人机验证后再获取验证码',
         captchaLabel: '人机验证',
+        switchLangTitle: '切换语言',
         forgotTitle: '忘记密码',
         forgotDesc: '输入邮箱，我们将发送验证码用于重置密码',
         newPasswordLabel: '新密码',
@@ -71,6 +72,8 @@ const TEXT = {
         resetFailed: '重置失败：{reason}',
         invalidCode: '请输入6位验证码',
         or: '或',
+        resetBtn: '重置密码',
+        resetting: '重置中...',
     },
     en: {
         title: 'Login / Register',
@@ -106,6 +109,7 @@ const TEXT = {
         switchToLogin: 'Have an account? Switch to Login',
         captchaRequired: 'Please complete the human verification first',
         captchaLabel: 'Human verification',
+        switchLangTitle: 'Switch Language',
         forgotTitle: 'Forgot Password',
         forgotDesc: 'Enter your email and we will send a verification code to reset your password',
         newPasswordLabel: 'New Password',
@@ -120,6 +124,8 @@ const TEXT = {
         resetFailed: 'Reset failed: {reason}',
         invalidCode: 'Please enter a 6-digit verification code',
         or: 'or',
+        resetBtn: 'Reset Password',
+        resetting: 'Resetting...',
     }
 };
 
@@ -561,7 +567,7 @@ class LoginModalComponent extends React.Component {
                                     disabled={verifying || code.length !== CODE_LENGTH || this.state.newPassword.length < PASSWORD_MIN || this.state.newPassword !== this.state.confirmPassword}
                                     onClick={() => this.onForgotPasswordReset()}
                                 >
-                                    {verifying ? this.renderSpinner('重置中...') : '重置密码'}
+                                    {verifying ? this.renderSpinner(T('resetting')) : T('resetBtn')}
                                 </button>
                                 <div className={styles.switchHint} onClick={() => this.setState({forgotStep: 'email'})}>
                                     {T('back')}
@@ -705,7 +711,7 @@ class LoginModalComponent extends React.Component {
                                 <button
                                     type="button"
                                     className={styles.langIconBtn}
-                                    title={(this.state.langOverride || (this.props.lang === 'en' ? 'en' : 'zh')) === 'en' ? '切换到中文' : 'Switch to English'}
+                                    title={T('switchLangTitle')}
                                     aria-label="switch language"
                                     onClick={() => this.switchLang()}
                                     dangerouslySetInnerHTML={{__html: GLOBE_SVG}}
