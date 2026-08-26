@@ -26,6 +26,10 @@
 - 新增「TwT Extension」（src/lib/libraries/extensions/index.jsx，tag 'twt'，Netlify host）
 - 菜单栏替换 logo 为 cat_logo.svg，含主题切换 svg
 - addon：`twt-project-cache`（快速恢复，重启恢复作品）
+- **忘记密码功能**：`src/components/tw-login-modal/login-modal.jsx` + `netlify/functions/reset-password.js` + `netlify/functions/send-code.js`
+  - 前端：forgotStep 状态机（none → email → code）
+  - 后端：scrypt 哈希 + 重置后踢出所有设备登录态
+  - 邮件：SVG logo base64 内联到问候语左侧，6 位验证码独立方框
 
 ## 注意点
 - 品牌名两处来源：`webpack.config.js` 与 `lib/brand.js` 的 APP_NAME 仍为 'TurboWarp'（遗留值），用户可见标题在 `render-interface.jsx` 与 webpack title 硬编码为 TwT。新增功能涉及品牌文案时需同步。
