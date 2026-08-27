@@ -206,6 +206,10 @@ class LoginModalComponent extends React.Component {
             this.removeTurnstile();
             this.loadTurnstile();
         }
+        // 忘记密码流程切换到邮箱输入步骤时，也需加载 Turnstile
+        if (this.state.forgotStep === 'email' && prevState.forgotStep !== 'email') {
+            this.loadTurnstile();
+        }
     }
 
     // 加载 Cloudflare Turnstile 脚本并渲染控件到 this.turnstileRef
@@ -311,6 +315,7 @@ class LoginModalComponent extends React.Component {
     }
     startForgotPassword () {
         this.setState({forgotStep: 'email', flash: '', code: '', newPassword: '', confirmPassword: ''});
+        this.loadTurnstile();
     }
     async onForgotPasswordSendCode () {
         const email = this.state.email.trim().toLowerCase();
