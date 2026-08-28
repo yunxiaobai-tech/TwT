@@ -674,7 +674,7 @@ class LoginModalComponent extends React.Component {
                                 {T('switchToRegister')}
                             </div>
                             <span className={styles.separator}>{T('or')}</span>
-                            <div className={styles.forgotLink} onClick={this.startForgotPassword}>
+                            <div className={styles.forgotLink} onClick={() => this.startForgotPassword()}>
                                 {T('forgotPasswordBtn')}
                             </div>
                         </div>
