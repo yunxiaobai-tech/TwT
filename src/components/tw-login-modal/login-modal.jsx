@@ -314,6 +314,7 @@ class LoginModalComponent extends React.Component {
         this.setState({tab, flash: '', regStep: 'form', forgotStep: 'none'});
     }
     startForgotPassword () {
+        this.removeTurnstile(); // 清除注册时的 Turnstile，避免复用导致不显示
         this.setState({forgotStep: 'email', flash: '', code: '', newPassword: '', confirmPassword: ''});
         this.loadTurnstile();
     }
@@ -552,6 +553,7 @@ class LoginModalComponent extends React.Component {
                                     placeholder={T('emailPlaceholder')}
                                     value={email}
                                     onChange={this.onForgotEmailChange}
+                                />
                                 <div className={styles.turnstileBox}>
                                     <div ref={this.turnstileRef} />
                                 </div>
