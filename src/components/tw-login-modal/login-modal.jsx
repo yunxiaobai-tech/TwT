@@ -358,6 +358,7 @@ class LoginModalComponent extends React.Component {
         this.setState({regStep: 'form', code: ''});
     }
     async onForgotPasswordSendCode () {
+        const email = this.state.email.trim().toLowerCase();
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             this.flash(this.t('invalidEmail'), 'error'); return;
         }
@@ -554,6 +555,7 @@ class LoginModalComponent extends React.Component {
                                     value={email}
                                     onChange={this.onForgotEmailChange}
                                 />
+                                <label className={styles.label}>{T('captchaLabel')}</label>
                                 <div className={styles.turnstileBox}>
                                     <div ref={this.turnstileRef} />
                                 </div>
@@ -565,7 +567,7 @@ class LoginModalComponent extends React.Component {
                                 >
                                     {sending ? this.renderSpinner(T('sending')) : T('sendCode')}
                                 </button>
-                                <div className={styles.switchHint} onClick={this.onForgotStepNone}>
+                                <div className={styles.switchHint} onClick={() => this.onForgotStepNone()}>
                                     {T('backToLogin')}
                                 </div>
                             </>
@@ -612,7 +614,7 @@ class LoginModalComponent extends React.Component {
                                 >
                                     {verifying ? this.renderSpinner(T('resetting')) : T('resetBtn')}
                                 </button>
-                                <div className={styles.switchHint} onClick={this.onForgotStepEmail}>
+                                <div className={styles.switchHint} onClick={() => this.onForgotStepEmail()}>
                                     {T('back')}
                                 </div>
                             </>
