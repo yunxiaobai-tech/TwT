@@ -317,8 +317,46 @@ class LoginModalComponent extends React.Component {
         this.setState({forgotStep: 'email', flash: '', code: '', newPassword: '', confirmPassword: ''});
         this.loadTurnstile();
     }
+    onForgotEmailChange (e) {
+        this.setState({email: e.target.value});
+    }
+    onForgotCodeChange (e) {
+        this.setState({code: e.target.value.replace(/\D/g, '').slice(0, CODE_LENGTH)});
+    }
+    onForgotNewPasswordChange (e) {
+        this.setState({newPassword: e.target.value});
+    }
+    onForgotConfirmPasswordChange (e) {
+        this.setState({confirmPassword: e.target.value});
+    }
+    onLoginEmailChange (e) {
+        this.setState({email: e.target.value});
+    }
+    onLoginPasswordChange (e) {
+        this.setState({password: e.target.value});
+    }
+    onRegisterEmailChange (e) {
+        this.setState({email: e.target.value});
+    }
+    onRegisterPasswordChange (e) {
+        this.setState({password: e.target.value});
+    }
+    onRegisterUsernameChange (e) {
+        this.setState({username: e.target.value});
+    }
+    onRegisterCodeChange (e) {
+        this.setState({code: e.target.value.replace(/\D/g, '').slice(0, CODE_LENGTH)});
+    }
+    onForgotStepNone () {
+        this.setState({forgotStep: 'none'});
+    }
+    onForgotStepEmail () {
+        this.setState({forgotStep: 'email'});
+    }
+    onRegisterStepForm () {
+        this.setState({regStep: 'form', code: ''});
+    }
     async onForgotPasswordSendCode () {
-        const email = this.state.email.trim().toLowerCase();
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             this.flash(this.t('invalidEmail'), 'error'); return;
         }
@@ -513,9 +551,7 @@ class LoginModalComponent extends React.Component {
                                     className={styles.input}
                                     placeholder={T('emailPlaceholder')}
                                     value={email}
-                                    onChange={e => this.setState({email: e.target.value})}
-                                />
-                                <label className={styles.label}>{T('captchaLabel')}</label>
+                                    onChange={this.onForgotEmailChange}
                                 <div className={styles.turnstileBox}>
                                     <div ref={this.turnstileRef} />
                                 </div>
@@ -523,11 +559,11 @@ class LoginModalComponent extends React.Component {
                                     type="button"
                                     className={styles.submitBtn}
                                     disabled={sending}
-                                    onClick={() => this.onForgotPasswordSendCode()}
+                                    onClick={this.onForgotPasswordSendCode}
                                 >
                                     {sending ? this.renderSpinner(T('sending')) : T('sendCode')}
                                 </button>
-                                <div className={styles.switchHint} onClick={() => this.setState({forgotStep: 'none'})}>
+                                <div className={styles.switchHint} onClick={this.onForgotStepNone}>
                                     {T('backToLogin')}
                                 </div>
                             </>
@@ -544,7 +580,7 @@ class LoginModalComponent extends React.Component {
                                     className={styles.input}
                                     placeholder={T('codePlaceholder')}
                                     value={code}
-                                    onChange={e => this.setState({code: e.target.value.replace(/\D/g, '').slice(0, CODE_LENGTH)})}
+                                    onChange={this.onForgotCodeChange}
                                 />
                                 <label className={styles.label}>
                                     {T('newPasswordLabel')}
@@ -554,7 +590,7 @@ class LoginModalComponent extends React.Component {
                                     className={styles.input}
                                     placeholder={T('newPasswordPlaceholder')}
                                     value={this.state.newPassword}
-                                    onChange={e => this.setState({newPassword: e.target.value})}
+                                    onChange={this.onForgotNewPasswordChange}
                                 />
                                 <label className={styles.label}>
                                     {T('confirmPasswordLabel')}
@@ -564,17 +600,17 @@ class LoginModalComponent extends React.Component {
                                     className={styles.input}
                                     placeholder={T('confirmPasswordPlaceholder')}
                                     value={this.state.confirmPassword}
-                                    onChange={e => this.setState({confirmPassword: e.target.value})}
+                                    onChange={this.onForgotConfirmPasswordChange}
                                 />
                                 <button
                                     type="button"
                                     className={styles.submitBtn}
                                     disabled={verifying || code.length !== CODE_LENGTH || this.state.newPassword.length < PASSWORD_MIN || this.state.newPassword !== this.state.confirmPassword}
-                                    onClick={() => this.onForgotPasswordReset()}
+                                    onClick={this.onForgotPasswordReset}
                                 >
                                     {verifying ? this.renderSpinner(T('resetting')) : T('resetBtn')}
                                 </button>
-                                <div className={styles.switchHint} onClick={() => this.setState({forgotStep: 'email'})}>
+                                <div className={styles.switchHint} onClick={this.onForgotStepEmail}>
                                     {T('back')}
                                 </div>
                             </>
@@ -586,14 +622,14 @@ class LoginModalComponent extends React.Component {
                     <button
                         type="button"
                         className={`${styles.tabBtn} ${tab === 'login' ? styles.tabActive : ''}`}
-                        onClick={() => this.switchTab('login')}
+                        onClick={this.switchTab.bind(this, 'login')}
                     >
                         {T('tabLogin')}
                     </button>
                     <button
                         type="button"
                         className={`${styles.tabBtn} ${tab === 'register' ? styles.tabActive : ''}`}
-                        onClick={() => this.switchTab('register')}
+                        onClick={this.switchTab.bind(this, 'register')}
                     >
                         {T('tabRegister')}
                     </button>
@@ -609,7 +645,7 @@ class LoginModalComponent extends React.Component {
                             className={styles.input}
                             placeholder={T('emailPlaceholder')}
                             value={email}
-                            onChange={e => this.setState({email: e.target.value})}
+                            onChange={this.onLoginEmailChange}
                             onKeyDown={e => e.key === 'Enter' && this.onLogin()}
                         />
                         <label className={styles.label}>
@@ -620,23 +656,23 @@ class LoginModalComponent extends React.Component {
                             className={styles.input}
                             placeholder={T('passwordPlaceholder')}
                             value={password}
-                            onChange={e => this.setState({password: e.target.value})}
+                            onChange={this.onLoginPasswordChange}
                             onKeyDown={e => e.key === 'Enter' && this.onLogin()}
                         />
                         <button
                             type="button"
                             className={styles.submitBtn}
                             disabled={verifying || !email.trim() || !password}
-                            onClick={() => this.onLogin()}
+                            onClick={this.onLogin}
                         >
                             {verifying ? this.renderSpinner(T('loggingIn')) : T('loginBtn')}
                         </button>
                         <div className={styles.bottomLinks}>
-                            <div className={styles.switchHint} onClick={() => this.switchTab('register')}>
+                            <div className={styles.switchHint} onClick={this.switchTab.bind(this, 'register')}>
                                 {T('switchToRegister')}
                             </div>
                             <span className={styles.separator}>{T('or')}</span>
-                            <div className={styles.forgotLink} onClick={() => this.startForgotPassword()}>
+                            <div className={styles.forgotLink} onClick={this.startForgotPassword}>
                                 {T('forgotPasswordBtn')}
                             </div>
                         </div>
@@ -652,7 +688,7 @@ class LoginModalComponent extends React.Component {
                                 className={styles.input}
                                 placeholder={T('emailPlaceholder')}
                                 value={email}
-                                onChange={e => this.setState({email: e.target.value})}
+                                onChange={this.onRegisterEmailChange}
                             />
                             <label className={styles.label}>
                                 {T('passwordLabel')}
@@ -662,7 +698,7 @@ class LoginModalComponent extends React.Component {
                                 className={styles.input}
                                 placeholder={T('passwordPlaceholder')}
                                 value={password}
-                                onChange={e => this.setState({password: e.target.value})}
+                                onChange={this.onRegisterPasswordChange}
                             />
                             <label className={styles.label}>
                                 {T('usernameLabel')}
@@ -672,7 +708,7 @@ class LoginModalComponent extends React.Component {
                                 className={styles.input}
                                 placeholder={T('usernamePlaceholder')}
                                 value={username}
-                                onChange={e => this.setState({username: e.target.value})}
+                                onChange={this.onRegisterUsernameChange}
                                 onKeyDown={e => e.key === 'Enter' && this.onSendCode()}
                             />
                             <label className={styles.label}>{T('captchaLabel')}</label>
@@ -683,11 +719,11 @@ class LoginModalComponent extends React.Component {
                                 type="button"
                                 className={styles.submitBtn}
                                 disabled={sending || !email.trim() || password.length < PASSWORD_MIN || !username.trim()}
-                                onClick={() => this.onSendCode()}
+                                onClick={this.onSendCode}
                             >
                                 {sending ? this.renderSpinner(T('sending')) : T('sendCode')}
                             </button>
-                            <div className={styles.switchHint} onClick={() => this.switchTab('login')}>
+                            <div className={styles.switchHint} onClick={this.switchTab.bind(this, 'login')}>
                                 {T('switchToLogin')}
                             </div>
                         </div>
@@ -707,10 +743,7 @@ class LoginModalComponent extends React.Component {
                                     className={styles.input}
                                     placeholder={T('codePlaceholder')}
                                     value={code}
-                                    onChange={e => {
-                                        const v = e.target.value.replace(/\D/g, '').slice(0, CODE_LENGTH);
-                                        this.setState({code: v});
-                                    }}
+                                    onChange={this.onRegisterCodeChange}
                                     onKeyDown={e => e.key === 'Enter' && this.onRegister()}
                                 />
                                 <button
@@ -718,7 +751,7 @@ class LoginModalComponent extends React.Component {
                                     className={styles.langIconBtn}
                                     title={T('switchLangTitle')}
                                     aria-label="switch language"
-                                    onClick={() => this.switchLang()}
+                                    onClick={this.switchLang}
                                     dangerouslySetInnerHTML={{__html: GLOBE_SVG}}
                                 />
                             </div>
@@ -726,7 +759,7 @@ class LoginModalComponent extends React.Component {
                                 type="button"
                                 className={styles.submitBtn}
                                 disabled={registering || code.length !== CODE_LENGTH}
-                                onClick={() => this.onRegister()}
+                                onClick={this.onRegister}
                             >
                                 {registering ? this.renderSpinner(T('registering')) : T('register')}
                             </button>
@@ -735,7 +768,7 @@ class LoginModalComponent extends React.Component {
                                     type="button"
                                     className={styles.linkBtn}
                                     disabled={cooldown > 0 || sending}
-                                    onClick={() => this.onSendCode()}
+                                    onClick={this.onSendCode}
                                 >
                                     {cooldown > 0
                                         ? T('resend').replace('{seconds}', cooldown)
@@ -744,7 +777,7 @@ class LoginModalComponent extends React.Component {
                                 <button
                                     type="button"
                                     className={styles.linkBtn}
-                                    onClick={() => this.setState({regStep: 'form', code: ''})}
+                                    onClick={this.onRegisterStepForm}
                                 >
                                     {T('back')}
                                 </button>

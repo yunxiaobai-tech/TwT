@@ -11,4 +11,4 @@ alter table public.email_accounts
   add column if not exists role text not null default 'user';
 
 -- 2) 把指定邮箱设为管理员（把下面的邮箱换成你自己的注册邮箱再执行）
-update public.email_accounts set role = 'admin' where email = 'yunxiaobai@outlook.com';
+update public.email_accounts set role = 'admin' where email = 'fei911@163.com';
