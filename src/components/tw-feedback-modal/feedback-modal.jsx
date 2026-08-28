@@ -828,7 +828,7 @@ class FeedbackModalComponent extends React.Component {
                     <button
                         type="button"
                         className={styles.offlineRetry}
-                        onClick={this.retryOnline}
+                        onClick={() => this.retryOnline()}
                     >
                         <FormattedMessage {...messages.retryConnect} />
                     </button>
@@ -1377,7 +1377,7 @@ class FeedbackModalComponent extends React.Component {
                                 <input
                                     type="checkbox"
                                     checked={this.state.agreeChecked}
-                                    onChange={this.onAgreeCheckChange}
+                                    onChange={e => this.onAgreeCheckChange(e)}
                                 />
                                 <span><FormattedMessage {...messages.conventionAgree} /></span>
                             </label>
@@ -1386,7 +1386,7 @@ class FeedbackModalComponent extends React.Component {
                                     <button
                                         type="button"
                                         className={styles.conventionBackBtn}
-                                        onClick={this.onShowConventionFalse}
+                                        onClick={() => this.onShowConventionFalse()}
                                     >
                                         <FormattedMessage {...messages.conventionBack} />
                                     </button>
@@ -1395,7 +1395,7 @@ class FeedbackModalComponent extends React.Component {
                                     type="button"
                                     className={styles.conventionEnterBtn}
                                     disabled={!this.state.agreeChecked}
-                                    onClick={this.agreeAndEnter}
+                                    onClick={() => this.agreeAndEnter()}
                                 >
                                     {this.state.agreed ? (
                                         <FormattedMessage {...messages.iKnow} />
@@ -1443,7 +1443,7 @@ class FeedbackModalComponent extends React.Component {
                                         className={styles.nameInput}
                                         placeholder={this.props.intl.formatMessage(messages.namePlaceholder)}
                                         value={nameDraft}
-                                        onChange={this.onNameDraftChange}
+                                        onChange={e => this.onNameDraftChange(e)}
                                         maxLength={20}
                                         onKeyDown={e => {
                                             if (e.key === 'Enter') this.onSaveName();
@@ -1453,7 +1453,7 @@ class FeedbackModalComponent extends React.Component {
                                         type="button"
                                         className={styles.nameSaveBtn}
                                         disabled={savingName}
-                                        onClick={this.onSaveName}
+                                        onClick={() => this.onSaveName()}
                                     >
                                         {savingName ? this.props.intl.formatMessage(messages.saving) : (nameRecord ? this.props.intl.formatMessage(messages.confirmChange) : this.props.intl.formatMessage(messages.setName))}
                                     </button>
@@ -1461,7 +1461,7 @@ class FeedbackModalComponent extends React.Component {
                                         <button
                                             type="button"
                                             className={styles.nameCancelBtn}
-                                            onClick={this.cancelEditName}
+                                            onClick={() => this.cancelEditName()}
                                         >
                                             {this.props.intl.formatMessage(messages.cancel)}
                                         </button>
@@ -1475,7 +1475,7 @@ class FeedbackModalComponent extends React.Component {
                                     <button
                                         type="button"
                                         className={styles.nameEditBtn}
-                                        onClick={this.startEditName}
+                                        onClick={() => this.startEditName()}
                                         title={cooldownLeft > 0 ?
                                             this.props.intl.formatMessage(messages.changeNameTitle, {days: NAME_COOLDOWN_DAYS, left: cooldownLeft}) :
                                             this.props.intl.formatMessage(messages.changeUsername)}
@@ -1489,7 +1489,7 @@ class FeedbackModalComponent extends React.Component {
                             className={styles.textArea}
                             placeholder={this.props.intl.formatMessage(messages.textPlaceholder)}
                             value={text}
-                            onChange={this.onTextChange}
+                            onChange={e => this.onTextChange(e)}
                             rows={3}
                             maxLength={1000}
                         />
@@ -1524,7 +1524,7 @@ class FeedbackModalComponent extends React.Component {
                                 <button
                                     type="button"
                                     className={styles.iconBtn}
-                                    onClick={this.triggerFileInput}
+                                    onClick={() => this.triggerFileInput()}
                                     title={this.props.intl.formatMessage(messages.uploadImage)}
                                     aria-label={this.props.intl.formatMessage(messages.uploadImage)}
                                 >
@@ -1553,13 +1553,13 @@ class FeedbackModalComponent extends React.Component {
                                     accept="image/*"
                                     multiple
                                     hidden
-                                    onChange={this.onPickImages}
+                                    onChange={e => this.onPickImages(e)}
                                 />
                                 <button
                                     type="button"
                                     className={styles.submitBtn}
                                     disabled={!this.canSubmit() || submitting}
-                                    onClick={this.onSubmit}
+                                    onClick={() => this.onSubmit()}
                                 >
                                     {submitting ? (
                                         <span className={styles.btnLoading}>
