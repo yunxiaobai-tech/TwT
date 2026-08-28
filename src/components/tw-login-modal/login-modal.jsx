@@ -372,7 +372,7 @@ class LoginModalComponent extends React.Component {
         if (res.ok) {
             this.setState({forgotStep: 'code'});
         } else {
-            this.flash(this.t('sendFailed').replace('{reason}', res.error), 'error');
+            this.flash(this.t('sendFailed').replace('{reason}', (res.data && res.data.error) || `HTTP ${res.status}`), 'error');
         }
     }
     async onForgotPasswordReset () {
@@ -395,7 +395,7 @@ class LoginModalComponent extends React.Component {
         if (res.ok) {
             this.setState({forgotStep: 'none', flash: this.t('passwordResetSuccess'), flashType: 'success'});
         } else {
-            this.flash(this.t('resetFailed').replace('{reason}', res.error), 'error');
+            this.flash(this.t('resetFailed').replace('{reason}', (res.data && res.data.error) || `HTTP ${res.status}`), 'error');
         }
     }
     startCooldown () {
